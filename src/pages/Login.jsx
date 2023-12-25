@@ -27,8 +27,9 @@ const Login = () => {
       if(response.data.status !== 200){
         return toast.error(response.data.message);
       }
-      const accessToken = Cookie.get('USER_TOKEN');
-      console.log(accessToken);
+      // const accessToken = Cookie.get('USER_TOKEN');
+      const accessToken = document.cookie.split('=')[1];
+      console.log('accessToken' , accessToken);
       const user = response.data.user;
       user.accessToken = accessToken;
       dispatch(addUser({...user}));
