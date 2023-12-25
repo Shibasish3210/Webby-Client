@@ -28,6 +28,7 @@ const Login = () => {
         return toast.error(response.data.message);
       }
       const accessToken = Cookie.get('USER_TOKEN');
+      console.log(accessToken);
       const user = response.data.user;
       user.accessToken = accessToken;
       dispatch(addUser({...user}));
