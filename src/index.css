@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  color: #fff;
+  background: #3382fd;
+  /* background: #436787; */
+  height: 100vh;
+  overflow: hidden;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+.active{
+  background: #6ef3ff;
+  color: black;
+}
+.infinite-scroll-component__outerdiv{
+  width: 100%;
+}
+a{
+  padding-inline: 1.5rem;
+  padding-block: 0.5rem;
+  transition: all 0.3s;
+}
+a:hover{
+  background: #6ef3ff;
+  color: black;
+}
+form{
+  width: 60%;
+  height: fit-content;
+  margin: auto;
+  margin-top: 3rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  background: #565656;
+}
+.inputFields{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.buttons{
+  width: 100%;
+  text-align: center;
+}
+
+.outer{
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1rem;
+  padding-top: 0;
+  height: 90vh;
+  gap: 1rem;
+}
+.code{
+  min-width: 48vw;
+  min-width: 48dvw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.output{
+  min-width: 48vw;
+  min-width: 48dvw;
+}
+.output iframe{
+  height: 100%;
+}
+
+.cm-editor, .cm-theme, .cm-scroller, .cm-content{
+  height: 90%;
+}
+
+/* .react-resizable-handle{
+  height: 2px;
+  width: 100%;
+  display: inline-block;
+  background: #000;
+  margin-top: 0;
+} */
