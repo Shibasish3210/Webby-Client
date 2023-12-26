@@ -5,6 +5,7 @@ import useAuthState from "../hooks/useAuthState";
 const PrivateRoute = () => {
     const [loading, user, error] = useAuthState();
     
+    console.log(loading, user, error);
     if(loading){
         return <h1>Loading</h1>;
     }else if(error){
