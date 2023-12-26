@@ -18,6 +18,7 @@ const useAuthState = () => {
             const response = await callApi.get('/auth/authenticate', { withCredentials: true });
             if(response.data.status === 200){
                 const user = response.data.user;
+                console.log(response.data)
                 user.accessToken = Cookie.get('USER_TOKEN');
                 dispatch(addUser({...user}));
                 setUser({...user});
