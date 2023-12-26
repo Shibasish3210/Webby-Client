@@ -12,6 +12,8 @@ const PrivateRoute = () => {
         return <Navigate to='/login' replace/>;
     }else if(user){
         return <Outlet/>;
+    }else{
+        return <h1> Nothing Coming {user}{loading}{error}</h1>
     }
   
 }
