@@ -1,19 +1,22 @@
 import { Navigate, Outlet } from "react-router-dom"
+import { useSelector } from "react-redux";
 import useAuthState from "../hooks/useAuthState";
+import { toast } from "react-toastify";
 
 
 const PrivateRoute = () => {
-    const [loading, user, error] = useAuthState();
+    useAuthState();
+   const { loading, user, error } = useSelector(state => state.userReducer);
     
-    console.log(loading, user, error);
     if(loading){
         return <h1>Loading</h1>;
     }else if(error){
+        toast.error(error);
         return <Navigate to='/login' replace/>;
     }else if(user){
         return <Outlet/>;
     }else{
-        return <h1> Nothing Coming {user}{loading}{error}</h1>
+        return <Navigate to='/login' replace/>;
     }
   
 }

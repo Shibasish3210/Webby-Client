@@ -1,42 +1,37 @@
-import { useEffect, useState } from "react";
-import { addUser } from '../reduxToolkit/slices/userSlice'
+import { useEffect } from "react";
+import { addUser, setError, setLoading } from '../reduxToolkit/slices/userSlice'
 import callApi from "../config/api";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
 const useAuthState = () => {
-  const [loading, setLoading] = useState();
-  const [user, setUser] = useState();
-  const [error, setError] = useState();
 
   const dispatch = useDispatch();
 
   useEffect(()=>{
     const Authenticate = async ()=>{
-        setLoading(true);
+        dispatch(setLoading(true));
         try {
             const response = await callApi.get('/auth/authenticate', { withCredentials: true });
             if(response.data.status === 200){
                 const user = response.data.user;
-                console.log(response.data)
                 user.accessToken = Cookies.get('USER_TOKEN');
                 dispatch(addUser({...user}));
-                setUser({...user});
             }else{
-                setError(response.data.message)
+                dispatch(setError(response.data.message))
             }
         } catch (error) {
             console.log(error);
-            setError(error.message);
+            dispatch(setError(error.message));
         }
-        setLoading(false);
+        dispatch(setLoading(false));
     }
     return ()=>{
         Authenticate();
     }
   },[dispatch]);
 
-  return [loading, user, error];
+  return;
 }
 
 export default useAuthState;

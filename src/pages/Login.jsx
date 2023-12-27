@@ -25,7 +25,8 @@ const Login = () => {
         password: password.current.value
       },{withCredentials: true});
       if(response.data.status !== 200){
-        return toast.error(response.data.message);
+        toast.error(response.data.message);
+        return;
       }
 
       const accessToken = response.data.accessToken;
