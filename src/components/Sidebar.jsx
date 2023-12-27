@@ -1,15 +1,18 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import Button from "./Button";
 import callApi from '../config/api'
 import Cookies from "js-cookie";
+import { removeUser } from "../reduxToolkit/slices/userSlice";
 
 const Sidebar = () => {
     const user = useSelector(state=>state.userReducer.user);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleLogOut = () => {
         Cookies.remove('USER_TOKEN');
+        dispatch(removeUser());
         navigate('/login')
     }
 
@@ -18,6 +21,7 @@ const Sidebar = () => {
         const response = await callApi.put('/auth/logout',null, {withCredentials: true});
         if(response.data.status === 200){
           Cookies.remove('USER_TOKEN');
+          dispatch(removeUser());
           navigate('/');
         }
       } catch (error) {
