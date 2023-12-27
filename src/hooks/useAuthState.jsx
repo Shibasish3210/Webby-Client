@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Cookie from 'js-cookie';
 import { addUser } from '../reduxToolkit/slices/userSlice'
 import callApi from "../config/api";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const useAuthState = () => {
   const [loading, setLoading] = useState();
@@ -19,7 +19,7 @@ const useAuthState = () => {
             if(response.data.status === 200){
                 const user = response.data.user;
                 console.log(response.data)
-                user.accessToken = Cookie.get('USER_TOKEN');
+                user.accessToken = Cookies.get('USER_TOKEN');
                 dispatch(addUser({...user}));
                 setUser({...user});
             }else{

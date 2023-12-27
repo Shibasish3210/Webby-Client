@@ -2,12 +2,12 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import Cookie from 'js-cookie';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Navbar from '../components/Navbar';
 import callApi from '../config/api';
 import { addUser } from '../reduxToolkit/slices/userSlice';
+import Cookies from 'js-cookie';
 
 
 const Login = () => {
@@ -27,11 +27,12 @@ const Login = () => {
       if(response.data.status !== 200){
         return toast.error(response.data.message);
       }
-      const accessToken = Cookie.get('USER_TOKEN');
-      // const accessToken = document.cookie.split('=')[1];
-      // console.log('accessToken' , accessToken);
+
+      const accessToken = response.data.accessToken;
+      
       const user = response.data.user;
-      user.accessToken = accessToken;
+      user.accessToken = accessToken; 
+      Cookies.set('USER_TOKEN', accessToken);
       dispatch(addUser({...user}));
       navigate('/dashboard');
     } catch (error) {
