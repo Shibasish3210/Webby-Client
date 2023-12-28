@@ -1,6 +1,5 @@
 import AuthButtons from '../components/AuthButtons';
 import Navbar from '../components/Navbar';
-import MidHero from '../assets/midHero.jpeg';
 import Hero from '../assets/hero.svg';
 import Button from '../components/Button';
 

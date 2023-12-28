@@ -16,7 +16,6 @@ const Register = () => {
 
   const handleRegistration = async (e)=>{
     e.preventDefault();
-    console.log(name.current.value, email.current.value, password.current.value, password.current.value);
 
     try {
       const response = await callApi.post('/auth/register', {

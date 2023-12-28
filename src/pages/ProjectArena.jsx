@@ -20,7 +20,7 @@ const ProjectArena = () => {
       const fetchCurrProject = async ()=>{
         const response = await callApi.get(`/project/${projectId}`,{
           headers:{
-            'userToken' : `${ Cookies.get('USER_TOKEN') }`
+            'userToken' : `${ Cookies.get('USER_TOKEN') || ''}`
         }
         });
 
@@ -47,7 +47,7 @@ const ProjectArena = () => {
       },
       {
         headers:{
-          'userToken' : `${Cookies.get('USER_TOKEN') }`
+          'userToken' : `${Cookies.get('USER_TOKEN') || ''}`
         }
       });
 

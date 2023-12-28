@@ -23,7 +23,7 @@ const DashBoard = () => {
     const fetchData = async ()=>{
       const response = await callApi.get('/project', {
         headers:{
-          'userToken' : `${Cookies.get('USER_TOKEN') }`
+          'userToken' : `${Cookies.get('USER_TOKEN') || ''}`
         }
       });
       const data = response.data;
@@ -42,7 +42,7 @@ const DashBoard = () => {
         name: newProj
       },{
         headers:{
-        'userToken' : `${Cookies.get('USER_TOKEN') }`
+        'userToken' : `${Cookies.get('USER_TOKEN') || ''}`
         }
     });
   
@@ -63,7 +63,7 @@ const DashBoard = () => {
   const fetchMoreProjects = async ()=>{
     const response = await callApi.get(`/project?skip=${projectsData.length}`,{
       headers:{
-        'userToken' : `${Cookies.get('USER_TOKEN') }`
+        'userToken' : `${Cookies.get('USER_TOKEN') || ''}`
       }
     });
     const data = response.data;
