@@ -12,10 +12,15 @@ const useAuthState = () => {
     const Authenticate = async ()=>{
         dispatch(setLoading(true));
         try {
-            const response = await callApi.get('/auth/authenticate', { withCredentials: true });
+            const accessToken = Cookies.get('USER_TOKEN');
+            const response = await callApi.get('/auth/authenticate', {
+                headers:{
+                    'userToken' : `${accessToken}`
+                }
+            });
             if(response.data.status === 200){
                 const user = response.data.user;
-                user.accessToken = Cookies.get('USER_TOKEN');
+                user.accessToken = accessToken;
                 dispatch(addUser({...user}));
             }else{
                 dispatch(setError(response.data.message))

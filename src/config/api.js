@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const callApi = axios.create({
     // baseURL: 'http://localhost:3333',

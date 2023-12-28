@@ -7,6 +7,7 @@ import ProjectCards from "../components/ProjectCards"
 import Sidebar from "../components/Sidebar";
 import callApi from "../config/api";
 import { addProjects } from "../reduxToolkit/slices/projectSlice";
+import Cookies from "js-cookie";
 
 
 const DashBoard = () => {
@@ -20,7 +21,11 @@ const DashBoard = () => {
 
   useEffect(()=>{
     const fetchData = async ()=>{
-      const response = await callApi.get('/project', {withCredentials: true});
+      const response = await callApi.get('/project', {
+        headers:{
+          'userToken' : `${Cookies.get('USER_TOKEN') }`;
+        }
+      });
       const data = response.data;
       if(data.status === 200){
         setLength(data.data.metadata[0].total);
@@ -35,7 +40,11 @@ const DashBoard = () => {
     try {
       const response = await callApi.post('/project/create',{
         name: newProj
-      },{withCredentials: true});
+      },{
+        headers:{
+        'userToken' : `${Cookies.get('USER_TOKEN') }`
+        }
+    });
   
       const data = response.data;
       if(data.status !== 200){
@@ -52,7 +61,11 @@ const DashBoard = () => {
   }
 
   const fetchMoreProjects = async ()=>{
-    const response = await callApi.get(`/project?skip=${projectsData.length}`,{withCredentials: true});
+    const response = await callApi.get(`/project?skip=${projectsData.length}`,{
+      headers:{
+        'userToken' : `${Cookies.get('USER_TOKEN') }`
+      }
+    });
     const data = response.data;
 
     if(data.status !== 200){

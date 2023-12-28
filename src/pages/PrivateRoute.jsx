@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 
 const PrivateRoute = () => {
     useAuthState();
-   const { loading, user, error } = useSelector(state => state.userReducer);
+    const { loading, user, error } = useSelector(state => state.userReducer);
     
     if(loading){
         return <h1>Loading</h1>;
     }else if(error){
         toast.error(error);
         return <Navigate to='/login' replace/>;
-    }else if(user){
+    }else if(user.accessToken){
         return <Outlet/>;
     }else{
         return <Navigate to='/login' replace/>;

@@ -23,7 +23,7 @@ const Login = () => {
       const response = await callApi.post('/auth/login', {
         loginId: loginId.current.value,
         password: password.current.value
-      },{withCredentials: true});
+      });
       if(response.data.status !== 200){
         toast.error(response.data.message);
         return;

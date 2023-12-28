@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import WorkSpace from './WorkSpace';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import WorkSpace from './WorkSpace';
 import Button from '../components/Button';
 import callApi from '../config/api';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
 import { removeCurrProject } from '../reduxToolkit/slices/projectSlice';
 
 const ProjectArena = () => {
@@ -17,7 +18,11 @@ const ProjectArena = () => {
     
     useEffect(()=>{
       const fetchCurrProject = async ()=>{
-        const response = await callApi.get(`/project/${projectId}`,{withCredentials: true});
+        const response = await callApi.get(`/project/${projectId}`,{
+          headers:{
+            'userToken' : `${ Cookies.get('USER_TOKEN') }`
+        }
+        });
 
         if(response.data.status === 200){
           console.log(response.data);
@@ -40,7 +45,11 @@ const ProjectArena = () => {
         css,
         js
       },
-      {withCredentials: true});
+      {
+        headers:{
+          'userToken' : `${Cookies.get('USER_TOKEN') }`
+        }
+      });
 
       const data = response.data;
 
