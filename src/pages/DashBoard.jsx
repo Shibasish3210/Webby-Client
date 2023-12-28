@@ -23,7 +23,7 @@ const DashBoard = () => {
     const fetchData = async ()=>{
       const response = await callApi.get('/project', {
         headers:{
-          'userToken' : `${Cookies.get('USER_TOKEN') }`;
+          'userToken' : `${Cookies.get('USER_TOKEN') }`
         }
       });
       const data = response.data;
