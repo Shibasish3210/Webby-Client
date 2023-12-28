@@ -36,7 +36,7 @@ const DashBoard = () => {
 
   },[dispatch]);
 
-  const handleProjectCreation=  async ()=>{
+  const handleProjectCreation =  async ()=>{
     try {
       const response = await callApi.post('/project/create',{
         name: newProj
