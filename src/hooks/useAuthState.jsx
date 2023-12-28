@@ -12,7 +12,7 @@ const useAuthState = () => {
     const Authenticate = async ()=>{
         dispatch(setLoading(true));
         try {
-            const accessToken = Cookies.get('USER_TOKEN') || '';
+            const accessToken = Cookies.get('USER_TOKEN') || ' ';
             const response = await callApi.get('/auth/authenticate', {
                 headers:{
                     'userToken' : `${accessToken}`
