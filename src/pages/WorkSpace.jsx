@@ -42,7 +42,7 @@ const WorkSpace = ({projectId, htmlText, cssText, jsText}) => {
           <Editor language={'JS'} onchange={setJs} value={js} />
         </div>
         <div className='output'>
-          <iframe sandbox='allow-scripts' srcDoc={srcDoc} height='100%' width='100%' loading='lazy' className='bg-slate-200'></iframe>
+          <iframe sandbox='allow-scripts' srcDoc={srcDoc} height='97%' width='100%' loading='lazy' className='bg-slate-200'></iframe>
         </div>
       </div>
     )

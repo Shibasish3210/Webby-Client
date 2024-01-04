@@ -1,10 +1,10 @@
 import { useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import Button from "../components/Button"
-import Input from "../components/Input"
-import Navbar from "../components/Navbar"
 import { toast } from "react-toastify"
+import Button from "../components/Button"
+import Navbar from "../components/Navbar"
 import callApi from "../config/api"
+import Input from "../components/Input"
 
 const Register = () => {
   const name = useRef('');
@@ -47,11 +47,12 @@ const Register = () => {
         <Input id='cpassword' type={'password'} label='Confirm Your Password :' placeholder={'abcd123!@#'} refrence={confPass}/>
       </div>
 
-      <div className="buttons">
+      <div className="mt-20 w-full text-center">
         <Button type={'submit'} value={'Register'}/>
         <p className='mt-4'>{`Already Have An Account?`} <Link className='pl-3' to={'/login'}>Click Here!</Link> </p>
       </div>
     </form>
+
     </>
   )
 }

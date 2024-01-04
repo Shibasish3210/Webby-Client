@@ -50,7 +50,7 @@ const Login = () => {
         <Input id='password' type={'password'} label='Your Password :' placeholder={'Enter your Password'} refrence={password}/>
       </div>
 
-      <div className="buttons">
+      <div className="mt-20 w-full text-center">
         <Button type='submit' value={'Log In'}/>
         <p className='mt-4'>{`Don't Have An Account?`} <Link className='pl-3' to={'/register'}>Click Here!</Link> </p>
       </div>

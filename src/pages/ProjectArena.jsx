@@ -57,7 +57,7 @@ const ProjectArena = () => {
         toast.error(data.message)
         return;
       }
-      console.log(data);
+      toast.success(data.message);
     }
     
     
@@ -66,13 +66,12 @@ const ProjectArena = () => {
 
     const handleExit = ()=>{
       const progress = confirm('Please make sure you have saved your changes');
-      console.log(progress);
       if(!progress) return;
       dispatch(removeCurrProject());
       navigate('/dashboard');
     }
   return (
-    <div>
+    <div className='h-[100vh] overflow-hidden'>
         <div className="flex gap-8 justify-end px-4 py-2">
             <Button func={updateData} value={'Save'}/>
             <Button func={handleExit} value={'Exit'}/>

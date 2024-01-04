@@ -2,89 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer components {
+  *{
+    @apply outline-[#c7f9cc]
+  }
+  body{
+    @apply min-h-screen bg-gradient-to-tr from-[#233d4d] via-[#38a3a5]  to-[#22577a] 
+  }
+  h1,p,a,button,label,input{
+    @apply text-[#233d4d] dark:text-[#d9fadd]
+  }
+  nav{
+    @apply py-2 px-4 font-semibold text-lg
+  }
+  a{
+    @apply mx-2
+  }
+  form{
+    @apply flex flex-col items-center m-auto mt-12 bg-[#619b8a] p-8 w-[60%] rounded
+  }
+  .inputFields{
+    @apply w-full  py-2 px-4 mt-2 flex flex-col gap-4
+  }
+  .Button {
+    @apply  py-3 px-8 rounded-md bg-[#fe7f2d] opacity-[85%] transition-opacity hover:opacity-100 
+  }
+  .Input{
+    @apply bg-transparent py-2 px-4 outline-none  border-[1px] border-transparent placeholder:text-[#a1c181] rounded-md border-b-[#c7f9cc] focus:border-[#c7f9cc]
+  }
+  .outer {
+    @apply grid grid-cols-2 gap-2 p-2 h-[94vh]
+  }
+  .output {
+    @apply w-full 
+  }
+  .code {
+    @apply text-xs
+  }
 }
-body{
-  color: #fff;
-  background: #3382fd;
-  /* background: #436787; */
-  height: 100vh;
-  overflow: hidden;
+*{
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: 'Caveat', cursive;
+  font-family: 'Croissant One', serif;
+  font-family: 'Inclusive Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Mukta', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Varela', sans-serif;
 }
 ::-webkit-scrollbar{
   display: none;
 }
-.active{
-  background: #6ef3ff;
-  color: black;
-}
 .infinite-scroll-component__outerdiv{
   width: 100%;
 }
-a{
-  padding-inline: 1.5rem;
-  padding-block: 0.5rem;
-  transition: all 0.3s;
+.infinite-scroll-component{
+  overflow-x: clip;
 }
-a:hover{
-  background: #6ef3ff;
-  color: black;
-}
-form{
-  width: 60%;
-  height: fit-content;
-  margin: auto;
-  margin-top: 3rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
-  background: #565656;
-}
-.inputFields{
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-.buttons{
-  width: 100%;
-  text-align: center;
-}
-
-.outer{
-  display: flex;
-  justify-content: space-between;
-  padding-inline: 1rem;
-  padding-top: 0;
-  height: 90vh;
-  gap: 1rem;
-}
-.code{
-  min-width: 48vw;
-  min-width: 48dvw;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.output{
-  min-width: 48vw;
-  min-width: 48dvw;
-}
-.output iframe{
-  height: 100%;
-}
-
-.cm-editor, .cm-theme, .cm-scroller, .cm-content{
+.cm-theme,.cm-editor,.cm-scroller {
   height: 90%;
 }
-
-/* .react-resizable-handle{
-  height: 2px;
-  width: 100%;
-  display: inline-block;
-  background: #000;
-  margin-top: 0;
-} */

@@ -43,7 +43,7 @@ const Editor = (props) => {
               {/* <button>O/C</button> */}
             </div>
           </div>
-          <Codemirror value={value} onChange={onchange} extensions={ lang } theme={dracula} className='h-full' width='100%'/>
+          <Codemirror value={value} onChange={onchange} extensions={ lang } theme={dracula} className='w-full'/>
       </div>
   )
 }
