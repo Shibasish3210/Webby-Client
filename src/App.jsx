@@ -5,7 +5,7 @@ import DashBoard from "./pages/DashBoard"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
-import WorkSpace from "./pages/WorkSpace"
+import WorkSpace from "./components/WorkSpace"
 import PrivateRoute from "./pages/PrivateRoute";
 import ProjectArena from "./pages/ProjectArena";
 
@@ -18,7 +18,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/demo" element={<WorkSpace/>}/>
+        <Route path="/workspace" element={<WorkSpace/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route element={<PrivateRoute/>}>

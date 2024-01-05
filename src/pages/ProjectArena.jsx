@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-import WorkSpace from './WorkSpace';
+import WorkSpace from '../components/WorkSpace';
 import Button from '../components/Button';
 import callApi from '../config/api';
 import { removeCurrProject } from '../reduxToolkit/slices/projectSlice';
