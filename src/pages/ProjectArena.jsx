@@ -38,9 +38,7 @@ const ProjectArena = () => {
 
 		fetchCurrProject();
 		window.addEventListener("beforeunload", (e) => {
-			debugger;
-      console.log(e);
-      
+			console.log(e);
 			e.preventDefault();
 		});
 	}, [projectId]);

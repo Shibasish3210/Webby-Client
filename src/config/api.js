@@ -1,8 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
 const callApi = axios.create({
-    baseURL: 'http://localhost:3333',
-    // baseURL: 'https://webby-server.vercel.app',
-})
+	baseURL: `${
+		import.meta.env.VITE_ENVIRONMENT === "developement"
+			? import.meta.env.VITE_devbaseURL
+			: import.meta.env.VITE_prodbaseURL
+	}`,
+});
 
-export default callApi
+export default callApi;
