@@ -4,9 +4,9 @@ import { dracula } from "@uiw/codemirror-theme-dracula"
 import { javascript } from '@codemirror/lang-javascript';
 import { xml } from '@codemirror/lang-xml';
 import { css } from '@codemirror/lang-css';
-import JavaScript from '../assets/javaScript.svg';
-import Html from '../assets/html.svg';
-import Css from '../assets/css.svg';
+import JavaScript from '../../assets/javaScript.svg';
+import Html from '../../assets/html.svg';
+import Css from '../../assets/css.svg';
 
 const jsExtensions = [ javascript( {jsx: true} ) ];
 const xmlExtensions = [ xml() ];

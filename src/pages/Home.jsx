@@ -1,8 +1,9 @@
-import AuthButtons from '../components/AuthButtons';
-import Navbar from '../components/Navbar';
-import Hero from '../assets/hero.svg';
-import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
+import AuthButtons from '../components/structured/AuthButtons';
+import Button from '../components/shared/Button';
+import Hero from '../assets/hero.svg'
+import Navbar from '../components/structured/Navbar';
+
 
 const Home = () => {
   const navigate = useNavigate();

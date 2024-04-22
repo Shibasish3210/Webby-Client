@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { toast } from 'react-toastify';
 import { RiMenuFoldFill, RiMenuUnfoldFill, RiAddLine } from "react-icons/ri";
-import ProjectCards from "../components/ProjectCards"
-import Sidebar from "../components/Sidebar";
 import callApi from "../config/api";
 import { addProjects } from "../reduxToolkit/slices/projectSlice";
-import Cookies from "js-cookie";
+import ProjectCards from "../components/shared/ProjectCards";
+import Sidebar from "../components/structured/Sidebar";
+import AddProjectModal from "../components/structured/AddProjectModal";
+
 
 
 const DashBoard = () => {
@@ -15,8 +17,8 @@ const DashBoard = () => {
   const projectsData = useSelector(state => state.projectReducer.projects);
   
   const [ length, setLength ] = useState(0);
-  const [ newProj, setNewProject ] = useState('');
   const [ isSidebarOpen, setSidebarOpen ] = useState(false);
+  const [ addProject, setAddProject ] = useState(false);
 
 
   useEffect(()=>{
@@ -36,10 +38,13 @@ const DashBoard = () => {
 
   },[dispatch]);
 
-  const handleProjectCreation =  async ()=>{
+  const handleProjectCreation =  async (e, projName, projDetails, visibility)=>{
+    e.preventDefault();
     try {
       const response = await callApi.post('/project/create',{
-        name: newProj
+        name: projName.current.value,
+        details: projDetails.current.value,
+        visibility
       },{
         headers:{
         'userToken' : `${Cookies.get('USER_TOKEN') || ''}`
@@ -53,7 +58,7 @@ const DashBoard = () => {
       }
       
       toast.success(data.message);
-      setNewProject('');
+      setAddProject(false);
       setLength(prevLen => prevLen +1);
       dispatch(addProjects([data.data, ...projectsData]));
     } catch (error) {
@@ -84,12 +89,17 @@ const DashBoard = () => {
       {isSidebarOpen && <Sidebar/>}
       <div className="head flex items-center justify-between px-4 py-2">
         <div className="flex gap-4 justify-center items-center">
-          <input value={newProj} onChange={e=>setNewProject(e.target.value)} className="Input border-1 border-[#c7f9cc]" type="text" placeholder="Enter New Project Name" />
-          <button onClick={handleProjectCreation} className="flex gap-2 items-center mt-0 Button">
+          <button onClick={()=>setAddProject(true)} className="flex gap-2 items-center mt-0 Button">
             <span>Add Project</span>
             <span><RiAddLine/></span>
           </button>
         </div>
+        {
+          addProject && 
+          <div className="absolute top-0 left-0">
+            <AddProjectModal exeFunc={handleProjectCreation} modalCloser={setAddProject}/>
+          </div>
+        }
         { !isSidebarOpen ?
         <RiMenuFoldFill onClick={()=>setSidebarOpen(!isSidebarOpen)} className="text-2xl relative z-20 text-[#233d4d] dark:text-[#d9fadd]"/>
         :

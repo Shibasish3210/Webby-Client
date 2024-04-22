@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Editor from './Editor';
-import { addCurrProject } from '../reduxToolkit/slices/projectSlice';
+import Editor from '../shared/Editor';
+import { addCurrProject } from '../../reduxToolkit/slices/projectSlice';
 
 const WorkSpace = ({projectId, htmlText, cssText, jsText}) => {
     let [html, setHtml] = useState('');

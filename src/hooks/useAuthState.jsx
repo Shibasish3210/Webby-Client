@@ -36,7 +36,7 @@ const useAuthState = () => {
     }
   },[dispatch]);
 
-  return;
+  return [];
 }
 
 export default useAuthState;

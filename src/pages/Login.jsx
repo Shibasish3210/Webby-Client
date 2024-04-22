@@ -2,12 +2,14 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import Navbar from '../components/Navbar';
-import callApi from '../config/api';
-import { addUser } from '../reduxToolkit/slices/userSlice';
 import Cookies from 'js-cookie';
+import { addUser } from '../reduxToolkit/slices/userSlice';
+import callApi from '../config/api';
+import Input from '../components/shared/Input';
+import Navbar from '../components/structured/Navbar';
+import Button from '../components/shared/Button';
+
+
 
 
 const Login = () => {
