@@ -1,0 +1,11 @@
+.cm-theme,
+.cm-editor,
+.cm-scroller {
+	height: 90%;
+}
+
+.modal cm-theme,
+.modal .cm-editor,
+.cm-scroller {
+	height: 100% !important;
+}

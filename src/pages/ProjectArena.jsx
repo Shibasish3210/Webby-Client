@@ -1,84 +1,68 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import callApi from "../config/api";
-import { removeCurrProject } from "../reduxToolkit/slices/projectSlice";
 import WorkSpace from "../components/structured/WorkSpace";
 import Button from "../components/shared/Button";
+import {
+	addCurrProject,
+	getCurrentProject,
+	updateCurrentProject,
+} from "../reduxToolkit/slices";
 
 const ProjectArena = () => {
 	const { projectId } = useParams();
 	const currProjData = useSelector(
-		(state) => state.projectReducer.currProject
+		(state) => state.projectReducer.currProject,
 	);
 
 	const [htmlText, setHtmlText] = useState("");
 	const [cssText, setCssText] = useState("");
 	const [jsText, setJsText] = useState("");
 
-	useEffect(() => {
-		const fetchCurrProject = async () => {
-			const response = await callApi.get(`/project/${projectId}`, {
-				headers: {
-					userToken: `${Cookies.get("USER_TOKEN") || ""}`,
-				},
-			});
-
-			if (response.data.status === 200) {
-				console.log(response.data);
-				setHtmlText(response.data.data.html);
-				setCssText(response.data.data.css);
-				setJsText(response.data.data.js);
-			} else {
-				toast.error(response.data.message);
-			}
-		};
-
-		fetchCurrProject();
-		window.addEventListener("beforeunload", (e) => {
-			console.log(e);
-			e.preventDefault();
-		});
-	}, [projectId]);
-
-	const updateData = async () => {
-		const { projectId, html, css, js } = currProjData;
-		const response = await callApi.patch(
-			"/project/update",
-			{
-				projectId,
-				html,
-				css,
-				js,
-			},
-			{
-				headers: {
-					userToken: `${Cookies.get("USER_TOKEN") || ""}`,
-				},
-			}
-		);
-
-		const data = response.data;
-
-		if (data.status !== 200) {
-			toast.error(data.message);
-			return;
-		}
-		toast.success(data.message);
-	};
-
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	useEffect(() => {
+		const storedProject = JSON.parse(localStorage.getItem("currProject"));
+		if (!storedProject) {
+			dispatch(getCurrentProject(projectId));
+		} else if (storedProject._id === projectId) {
+			dispatch(addCurrProject(storedProject));
+		} else {
+			dispatch(getCurrentProject(projectId));
+		}
+
+		const preventDefault = (e) => {
+			console.log(e);
+			e.preventDefault();
+		};
+		window.addEventListener("beforeunload", () => {
+			preventDefault();
+		});
+
+		return () => {
+			window.removeEventListener("beforeunload", () => {
+				preventDefault();
+			});
+		};
+	}, [projectId]);
+
+	useEffect(() => {
+		setHtmlText(currProjData?.html);
+		setCssText(currProjData?.css);
+		setJsText(currProjData?.js);
+	}, [currProjData]);
+
+	const updateData = () => {
+		dispatch(updateCurrentProject({ currProjData }));
+	};
+
 	const handleExit = () => {
 		const progress = confirm(
-			"Please make sure you have saved your changes"
+			"Please make sure you have saved your changes",
 		);
 		if (!progress) return;
-		dispatch(removeCurrProject());
-		navigate("/dashboard");
+		navigate(-2);
 	};
 	return (
 		<div className="h-[100vh] overflow-hidden">

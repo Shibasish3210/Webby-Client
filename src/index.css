@@ -3,63 +3,78 @@
 @tailwind utilities;
 
 @layer components {
-  *{
-    @apply outline-[#c7f9cc]
-  }
-  body{
-    @apply min-h-screen bg-gradient-to-tr from-[#233d4d] via-[#38a3a5]  to-[#22577a] 
-  }
-  h1,p,a,button,label,input{
-    @apply text-[#233d4d] dark:text-[#d9fadd]
-  }
-  nav{
-    @apply py-2 px-4 font-semibold text-lg
-  }
-  a{
-    @apply mx-2
-  }
-  form{
-    @apply flex flex-col items-center m-auto mt-12 bg-[#181a1942] p-8 w-[60%] rounded border-2 border-[#324c3a87]
-  }
-  .inputFields{
-    @apply w-full  py-2 px-4 mt-2 flex flex-col gap-4
-  }
-  .Button {
-    @apply  py-3 px-8 rounded-md bg-[#fe7f2d] opacity-[85%] transition-opacity hover:opacity-100 
-  }
-  .Input{
-    @apply bg-transparent py-2 px-4 outline-none  border-[1px] border-transparent placeholder:text-[#a1c181] rounded-md border-b-[#c7f9cc] focus:border-[#c7f9cc]
-  }
-  .outer {
-    @apply grid grid-cols-2 gap-2 p-2 h-[94vh]
-  }
-  .output {
-    @apply w-full 
-  }
-  .code {
-    @apply text-xs
-  }
+	* {
+		@apply outline-[#c7f9cc];
+	}
+	body {
+		@apply min-h-screen max-h-screen bg-slate-700 overflow-hidden;
+	}
+	h1,
+	p,
+	a,
+	button,
+	label,
+	input {
+		@apply text-[#233d4d] dark:text-[#d9fadd];
+	}
+	nav {
+		@apply py-2 px-4 font-semibold text-lg;
+	}
+	a {
+		@apply mx-2;
+	}
+	form {
+		@apply flex flex-col items-center m-auto mt-12 bg-[#181a1942] p-8 w-[60%] rounded border-2 border-[#324c3a87];
+	}
+	.inputFields {
+		@apply w-full  py-2 px-4 mt-2 flex flex-col gap-4;
+	}
+	.Button {
+		@apply py-3 px-8 rounded-md bg-[#fe7f2d] transition-all duration-300;
+	}
+	.icon_Button {
+		@apply px-4 h-[36px] gap-1 flex justify-center items-center rounded-md bg-[#fe7f2d] opacity-[85%] duration-300 transition-opacity hover:opacity-100 text-xs;
+	}
+	.icon_button_text {
+		@apply block lg:scale-0 font-semibold text-sm lg:opacity-0 lg:w-0 lg:group-hover/button:scale-100 lg:group-hover/button:opacity-100 lg:group-hover/button:w-16 transition-all duration-300;
+	}
+	.Input {
+		@apply bg-transparent py-2 px-4 outline-none -skew-x-12  border-2 border-gray-600 focus:border-gray-200 placeholder:text-[#a1c181ae] rounded-md;
+	}
+	.outer {
+		@apply grid grid-cols-2 gap-2 p-2 h-[94vh];
+	}
+	.output {
+		@apply w-full;
+	}
+	.code {
+		@apply text-xs;
+	}
 }
-*{
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-family: 'Caveat', cursive;
-  font-family: 'Croissant One', serif;
-  font-family: 'Inclusive Sans', sans-serif;
-  font-family: 'Inter', sans-serif;
-  font-family: 'Mukta', sans-serif;
-  font-family: 'Raleway', sans-serif;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Varela', sans-serif;
+* {
+	font-family: "Bricolage Grotesque", sans-serif;
+	font-family: "Caveat", cursive;
+	font-family: "Croissant One", serif;
+	font-family: "Inclusive Sans", sans-serif;
+	font-family: "Inter", sans-serif;
+	font-family: "Mukta", sans-serif;
+	font-family: "Raleway", sans-serif;
+	font-family: "Roboto", sans-serif;
+	font-family: "Varela", sans-serif;
 }
-::-webkit-scrollbar{
-  display: none;
+
+/* body {
+	overflow: hidden;
 }
-.infinite-scroll-component__outerdiv{
-  width: 100%;
+#root {
+	margin-bottom: 1rem;
+} */
+::-webkit-scrollbar {
+	display: none;
 }
-.infinite-scroll-component{
-  overflow-x: clip;
+.infinite-scroll-component__outerdiv {
+	width: 100%;
 }
-.cm-theme,.cm-editor,.cm-scroller {
-  height: 90%;
+.infinite-scroll-component {
+	overflow-x: clip;
 }

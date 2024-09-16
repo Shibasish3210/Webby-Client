@@ -1,102 +1,67 @@
 import { useEffect, useState } from "react";
-import { RiMenuFoldFill, RiMenuUnfoldFill } from "react-icons/ri";
-import Sidebar from "../components/structured/Sidebar";
 import SearchBar from "../components/structured/SearchBar";
-import callApi from "../config/api";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProjectCards from "../components/shared/ProjectCards";
+import { fetchMoreProjects, fetchPublicProjects } from "../reduxToolkit/slices";
+import SidebarToggler from "../components/structured/SidebarToggler";
 
 const Discover = () => {
-	const [isSidebarOpen, setSidebarOpen] = useState(false);
-	const [length, setLength] = useState(0);
-	const projectsData = useSelector((state) => state.projectReducer.projects);
+	const projectsData = useSelector((state) => state.projectReducer);
+	const { feedProjects: feedProjectsData, totalFeedProjects } = projectsData;
+	const [filteredData, setFilteredData] = useState(feedProjectsData);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const fetchPublicProjects = async () => {
-			try {
-				const response = await callApi.get("/project/projects", {
-					headers: {
-						userToken: `${Cookies.get("USER_TOKEN") || ""}`,
-					},
-				});
-				if (response.data.status !== 200) {
-					toast.error(response.data.message);
-					return;
-				}
-				// setProjects(response.data);
-				// console.log(projects);
-			} catch (error) {
-				console.log(error);
-				toast.error(error.message);
-			}
-		};
-
-		fetchPublicProjects();
+		dispatch(fetchPublicProjects());
 	}, []);
 
-	const fetchMoreProjects = async () => {
-		const response = await callApi.get(
-			`/project?skip=${projectsData.length}`,
-			{
-				headers: {
-					userToken: `${Cookies.get("USER_TOKEN") || ""}`,
-				},
-			}
+	const fetchMorePublicProjects = async () => {
+		dispatch(
+			fetchMoreProjects({
+				skipCount: feedProjectsData.length,
+				type: "feed",
+			}),
 		);
-		const data = response.data;
-
-		if (data.status !== 200) {
-			toast.error(data.message);
-			return;
-		}
-
-		dispatch(addProjects([...projectsData, ...data.data.data]));
-		setLength(data.data.metadata[0].total);
 	};
 
 	return (
 		<>
 			<div className="flex justify-between px-4 py-2">
-				{isSidebarOpen && <Sidebar />}
-				<SearchBar />
-				{!isSidebarOpen ? (
-					<RiMenuFoldFill
-						onClick={() => setSidebarOpen(!isSidebarOpen)}
-						className="text-2xl relative z-20 text-[#233d4d] dark:text-[#d9fadd]"
-					/>
-				) : (
-					<RiMenuUnfoldFill
-						onClick={() => setSidebarOpen(!isSidebarOpen)}
-						className="text-2xl relative z-20 text-[#233d4d] dark:text-[#d9fadd]"
-					/>
-				)}
+				<SearchBar
+					feedProjectsData={feedProjectsData}
+					setFilteredData={setFilteredData}
+				/>
+				<SidebarToggler />
 			</div>
 			<main>
 				<div
 					id="scrollableDiv"
 					className="work-container m-auto w-[90vw] h-[90vh] p-6 scroll-smooth"
 				>
-					<InfiniteScroll
-						dataLength={projectsData.length}
-						next={fetchMoreProjects}
-						height={"85vh"}
-						hasMore={length > projectsData.length ? true : false}
-						loader={<h4>Loading...</h4>}
-						scrollableTarget="scrollableDiv"
-					>
-						{projectsData.length > 0 &&
-							projectsData.map((project) => {
-								return (
-									<ProjectCards
-										key={project?._id}
-										project={project}
-									/>
-								);
-							})}
-					</InfiniteScroll>
+					{filteredData && (
+						<InfiniteScroll
+							dataLength={feedProjectsData.length}
+							next={fetchMorePublicProjects}
+							height={"85vh"}
+							hasMore={
+								totalFeedProjects > feedProjectsData.length
+							}
+							loader={<h4>Loading...</h4>}
+							scrollableTarget="scrollableDiv"
+						>
+							{filteredData.length > 0 &&
+								filteredData.map((project) => {
+									return (
+										<ProjectCards
+											key={project?._id}
+											project={project}
+										/>
+									);
+								})}
+						</InfiniteScroll>
+					)}
 				</div>
 			</main>
 		</>

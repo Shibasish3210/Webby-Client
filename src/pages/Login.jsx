@@ -1,10 +1,7 @@
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
-import { addUser } from "../reduxToolkit/slices/userSlice";
-import callApi from "../config/api";
+import { loginUser } from "../reduxToolkit/slices/user/userSlice";
 import Input from "../components/shared/Input";
 import Navbar from "../components/structured/Navbar";
 import Button from "../components/shared/Button";
@@ -18,33 +15,13 @@ const Login = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		console.log(
-			import.meta.env.VITE_ENVIRONMENT === "production"
-				? import.meta.env.VITE_devbaseURL
-				: import.meta.env.VITE_prodbaseURL,
-			import.meta.env.VITE_prodbaseURL,
-		);
-		try {
-			const response = await callApi.post("/auth/login", {
+		dispatch(
+			loginUser({
 				loginId: loginId.current.value,
 				password: password.current.value,
-			});
-			if (response.data.status !== 200) {
-				toast.error(response.data.message);
-				return;
-			}
-
-			const accessToken = response.data.accessToken;
-
-			const user = response.data.user;
-			user.accessToken = accessToken;
-			Cookies.set("USER_TOKEN", accessToken);
-			dispatch(addUser({ ...user }));
-			navigate("/dashboard");
-		} catch (error) {
-			toast.error(error.message);
-			console.log(error);
-		}
+				navigate,
+			}),
+		);
 	};
 	return (
 		<>
