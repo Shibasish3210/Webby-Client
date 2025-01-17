@@ -1,15 +1,18 @@
-const Input = ({ id, label, type, placeholder, refrence }) => {
+const Input = ({ id, label, type, placeholder, reference, required }) => {
 	return (
-		<div className="flex justify-between w-full items-center mb-2">
-			<label className="w-fit" htmlFor={id}>
-				{label}
+		<div className="flex flex-col gap-2 justify-between w-full relative">
+			<label className="font-light text-sm" htmlFor={id}>
+				{label} :
+				{required && (
+					<span className="text-red-400 absolute right-0">*</span>
+				)}
 			</label>
 			<input
-				className="w-8/12 Input"
+				className="Input"
 				id={id}
 				type={type}
 				placeholder={placeholder}
-				ref={refrence}
+				ref={reference}
 			/>
 		</div>
 	);

@@ -4,7 +4,7 @@
 
 @layer components {
 	* {
-		@apply outline-[#c7f9cc];
+		@apply outline-[#c7f9cc] tracking-wider;
 	}
 	body {
 		@apply min-h-screen max-h-screen bg-slate-700 overflow-hidden;
@@ -15,7 +15,7 @@
 	button,
 	label,
 	input {
-		@apply text-[#233d4d] dark:text-[#d9fadd];
+		@apply text-[#233d4d] dark:text-[#d9fadd] sm:text-sm text-[12px];
 	}
 	nav {
 		@apply py-2 px-4 font-semibold text-lg;
@@ -24,19 +24,19 @@
 		@apply mx-2;
 	}
 	form {
-		@apply flex flex-col items-center m-auto mt-12 bg-[#181a1942] p-8 w-[60%] rounded border-2 border-[#324c3a87];
+		@apply p-2 sm:p-8 border-0 border-t w-full;
 	}
 	.inputFields {
 		@apply w-full  py-2 px-4 mt-2 flex flex-col gap-4;
 	}
 	.Button {
-		@apply py-3 px-8 rounded-md bg-[#fe7f2d] transition-all duration-300;
+		@apply py-2 sm:py-3 px-6  md:px-8  rounded-md bg-[#fe7f2d] transition-all duration-300;
 	}
 	.icon_Button {
-		@apply px-4 h-[36px] gap-1 flex justify-center items-center rounded-md bg-[#fe7f2d] opacity-[85%] duration-300 transition-opacity hover:opacity-100 text-xs;
+		@apply px-1 w-[92px] sm:w-auto sm:px-4 h-7 sm:h-[36px] flex gap-2 sm:gap-0 justify-center items-center rounded-md bg-[#fe7f2d] opacity-[85%] duration-300 transition-opacity hover:opacity-100 text-xs;
 	}
 	.icon_button_text {
-		@apply block lg:scale-0 font-semibold text-sm lg:opacity-0 lg:w-0 lg:group-hover/button:scale-100 lg:group-hover/button:opacity-100 lg:group-hover/button:w-16 transition-all duration-300;
+		@apply block lg:scale-0 font-semibold text-[12px] sm:text-sm lg:opacity-0 lg:w-0 lg:group-hover/button:scale-100 lg:group-hover/button:opacity-100 lg:group-hover/button:w-16 transition-all duration-300;
 	}
 	.Input {
 		@apply bg-transparent py-2 px-4 outline-none -skew-x-12  border-2 border-gray-600 focus:border-gray-200 placeholder:text-[#a1c181ae] rounded-md;
@@ -49,6 +49,33 @@
 	}
 	.code {
 		@apply text-xs;
+	}
+	.modal {
+		@apply fixed w-screen h-screen z-40 bg-[#1f1d43c9] backdrop-blur-md p-0 m-0 top-0 left-0 grid place-items-center;
+	}
+	.modal-content {
+		@apply flex flex-col items-center m-auto bg-[#292929] max-w-[85vw] md:min-w-fit rounded border-2 border-[#324c3a87] sm:text-sm text-[12px];
+	}
+	.modal-input-container {
+		@apply w-full flex flex-col gap-4 items-center;
+	}
+	.modal-top {
+		@apply w-full relative flex  p-4 items-center justify-between mb-2;
+	}
+	.modal-top-font {
+		@apply text-lg lg:text-3xl sm:text-2xl;
+	}
+	.btn-container {
+		@apply w-fit m-auto mb-2;
+	}
+	.styled_form {
+		@apply w-screen h-[90vh] grid place-items-center;
+	}
+	.styled-modal-form-content {
+		@apply bg-[#292929]  rounded-lg border-2 border-[#324c3a87] sm:text-sm text-[12px] w-[60vw];
+	}
+	.uploaded_image {
+		@apply w-36;
 	}
 }
 * {
@@ -63,12 +90,6 @@
 	font-family: "Varela", sans-serif;
 }
 
-/* body {
-	overflow: hidden;
-}
-#root {
-	margin-bottom: 1rem;
-} */
 ::-webkit-scrollbar {
 	display: none;
 }

@@ -9,9 +9,9 @@ import {
 	MdPublic,
 	MdPublicOff,
 } from "react-icons/md";
-import DeleteProjectModal from "../structured/DeleteProjectModal";
 import { useNavigate } from "react-router-dom";
-import { addCurrProject, deleteProject } from "../../reduxToolkit/slices";
+import { addCurrProject } from "../../reduxToolkit/slices";
+import { openModal } from "../../reduxToolkit/slices/modal/modalSlice";
 
 const initialProj = {
 	name: "test",
@@ -25,7 +25,6 @@ const initialProj = {
 const ProjectCards = ({ project = initialProj }) => {
 	const USER_ID = useSelector((state) => state.userReducer.user.userId);
 	const [srcDoc, setSrcDoc] = useState("");
-	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewOpenAnimation, setPreviewOpenAnimation] = useState(false);
 	const {
@@ -65,12 +64,6 @@ const ProjectCards = ({ project = initialProj }) => {
 		}
 	};
 
-	const handleProjectDeletion = async (e, projName) => {
-		e.preventDefault();
-		console.log(project);
-		dispatch(deleteProject({ projName, name, _id }));
-	};
-
 	const handleEdit = async (e, project) => {
 		e.preventDefault();
 		dispatch(addCurrProject(project));
@@ -85,13 +78,22 @@ const ProjectCards = ({ project = initialProj }) => {
 		navigate(`/workspace/${_id}`);
 	};
 
+	const openProjectDeletionModal = () => {
+		dispatch(
+			openModal({
+				modalType: "PROJECT_DELETE",
+				modalProps: { name, _id },
+			}),
+		);
+	};
+
 	return (
 		<>
 			<div
 				to={`/workspace/${_id}`}
-				className="flex flex-col gap-4 lg:flex-row justify-between border-2 border-[#c7f9cc] group relative work-cards opacity-70 transition-all hover:shadow-xl hover:opacity-100 h-fit  m-auto p-2 mt-2 rounded-md mb-8"
+				className="flex flex-col gap-4 lg:flex-row justify-between border-2 border-[#c7f9cc] group relative work-cards opacity-70 transition-all hover:shadow-xl group hover:opacity-100 h-[30vh] w-[30vw] m-auto p-2 mt-2 rounded-md mb-8"
 			>
-				<div className="info flex-grow flex-col  md:flex-row flex md:items-center justify-between w-full lg:w-8/12 gap-2 md:gap-0 px-4">
+				<div className="info group-hover:opacity-0 group-hover:translate-y-8 transition-all duration-400 flex-grow flex-col flex md:items-center justify-between w-full lg:w-8/12 gap-2 md:gap-0 px-4">
 					<p
 						className="text-sm"
 						title={`Name : ${name}`}
@@ -104,16 +106,15 @@ const ProjectCards = ({ project = initialProj }) => {
 						)
 					} days ago`}</p>
 				</div>
-				<div className="btn-cont grid grid-cols-2 md:flex items-center gap-2 w-[16rem] md:w-[20rem] m-0 md:m-auto lg:m-0">
+				{/* md:flex */}
+				<div className="opacity-0  btn-cont group-hover:-translate-y-8 transition-all duration-300 delay-300 group-hover:opacity-100 grid grid-cols-2  items-center gap-2  m-0 md:m-auto lg:m-0">
 					{USER_ID === userId && (
 						<button
 							className="icon_Button group/button"
-							onClick={(e) => {
-								e.preventDefault();
-								setIsModalOpen(true);
-							}}
+							type="button"
+							onClick={openProjectDeletionModal}
 						>
-							<MdOutlineAutoDelete className="text-xl" />
+							<MdOutlineAutoDelete className="text-sm md:text-xl" />
 							<span className="icon_button_text">Delete</span>
 						</button>
 					)}
@@ -124,7 +125,7 @@ const ProjectCards = ({ project = initialProj }) => {
 								handleEdit(e, project);
 							}}
 						>
-							<MdOutlineEdit className="text-xl " />
+							<MdOutlineEdit className="text-sm md:text-xl " />
 							<span className="icon_button_text">Edit</span>
 						</button>
 					) : (
@@ -134,7 +135,7 @@ const ProjectCards = ({ project = initialProj }) => {
 								handleCopiedProjectEdit(e, project);
 							}}
 						>
-							<MdSaveAs className="text-xl " />
+							<MdSaveAs className="text-sm md:text-xl" />
 							<span className="icon_button_text text-xs">
 								Save As
 							</span>
@@ -147,7 +148,7 @@ const ProjectCards = ({ project = initialProj }) => {
 								handleEdit(e, project);
 							}}
 						>
-							<MdPublic className="text-xl " />
+							<MdPublic className="text-sm md:text-xl" />
 							<span className="icon_button_text">Hide</span>
 						</button>
 					) : (
@@ -157,7 +158,7 @@ const ProjectCards = ({ project = initialProj }) => {
 								handleCopiedProjectEdit(e, project);
 							}}
 						>
-							<MdPublicOff className="text-xl " />
+							<MdPublicOff className="text-sm md:text-xl" />
 							<span className="icon_button_text text-xs">
 								Publish
 							</span>
@@ -169,29 +170,20 @@ const ProjectCards = ({ project = initialProj }) => {
 					>
 						{!previewOpenAnimation ? (
 							<>
-								<MdPreview className="text-xl" />
+								<MdPreview className="text-sm md:text-xl" />
 								<span className="icon_button_text">
 									Preview
 								</span>
 							</>
 						) : (
 							<>
-								<MdCancelPresentation className="text-xl" />
+								<MdCancelPresentation className="text-sm md:text-xl" />
 								<span className="icon_button_text">Close</span>
 							</>
 						)}
 					</button>
 				</div>
 			</div>
-			{isModalOpen && (
-				<div className="absolute top-0 left-0">
-					<DeleteProjectModal
-						name={name}
-						exeFunc={handleProjectDeletion}
-						modalCloser={setIsModalOpen}
-					/>
-				</div>
-			)}
 			{previewOpen && (
 				<iframe
 					height={"70%"}

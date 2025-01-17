@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import callApi from "../../../config/api";
 import { USER_CALL, USER_TOKEN } from "../../../helpers/apiEndpoints";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -15,18 +14,11 @@ export const authenticateUser = createAsyncThunk(
 	"user/authenticate",
 	async (_, thunkAPI) => {
 		try {
-			const accessToken = Cookies.get(USER_TOKEN) || " ";
 			const response = await callApi.get(
 				`${USER_CALL.AUTHENTICATE_USER}`,
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN) || " ",
-					},
-				},
 			);
 			if (response.data.status === 200) {
 				const user = response.data.user;
-				user.accessToken = accessToken;
 				return user;
 			} else {
 				toast.error(response.data.message);
@@ -79,8 +71,7 @@ export const loginUser = createAsyncThunk(
 			const accessToken = response.data.accessToken;
 
 			const user = response.data.user;
-			user.accessToken = accessToken;
-			Cookies.set(USER_TOKEN, accessToken);
+			document.cookie = `${USER_TOKEN}=${accessToken}; path=/`;
 			navigate("/dashboard");
 			return user;
 		} catch (error) {
@@ -98,9 +89,45 @@ export const deleteUser = createAsyncThunk(
 		try {
 			const response = await callApi.delete(
 				`${USER_CALL.DELETE_USER}?email=${email}&password=${password}`,
+			);
+			if (response.data.status !== 200) {
+				toast.error(response.data.message);
+				return null;
+			}
+			document.cookie =
+				USER_TOKEN + "=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+			navigate("/");
+			return null;
+		} catch (error) {
+			console.log(error);
+			return thunkAPI.rejectWithValue(error.message);
+		}
+	},
+);
+
+//async thunk for updating user details
+export const updateUser = createAsyncThunk(
+	"user/updateUser",
+	async (
+		{ name, userName, email, password, newPassword, image, navigate },
+		thunkAPI,
+	) => {
+		try {
+			const formData = new FormData();
+			formData.append("name", name);
+			formData.append("avatar", image);
+			formData.append("userName", userName);
+			formData.append("email", email);
+			formData.append("password", password);
+			formData.append("newPassword", newPassword);
+			console.log(formData);
+
+			const response = await callApi.patch(
+				USER_CALL.UPDATE_USER,
+				formData,
 				{
 					headers: {
-						userToken: Cookies.get(USER_TOKEN),
+						"Content-Type": "multipart/form-data",
 					},
 				},
 			);
@@ -108,9 +135,9 @@ export const deleteUser = createAsyncThunk(
 				toast.error(response.data.message);
 				return null;
 			}
-			Cookies.remove(USER_TOKEN);
-			navigate("/");
-			return null;
+			console.log("here", response.data)
+			// navigate("/dashboard");
+			return response.data.user;
 		} catch (error) {
 			console.log(error);
 			return thunkAPI.rejectWithValue(error.message);
@@ -172,6 +199,18 @@ const userSlice = createSlice({
 				state.user = null;
 			})
 			.addCase(deleteUser.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(updateUser.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(updateUser.fulfilled, (state, action) => {
+				state.loading = false;
+				state.user = action.payload;
+			})
+			.addCase(updateUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 			});

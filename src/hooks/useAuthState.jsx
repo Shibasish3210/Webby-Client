@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { authenticateUser } from "../reduxToolkit/slices/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const useAuthState = () => {
 	const dispatch = useDispatch();
+	const user = useSelector((state) => state.userReducer.user);
 
 	useEffect(() => {
-		dispatch(authenticateUser());
+		if (!user) {
+			dispatch(authenticateUser());
+		}
 	}, [dispatch]);
 
 	return [];

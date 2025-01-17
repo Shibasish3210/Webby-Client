@@ -11,6 +11,7 @@ export const USER_CALL = Object.freeze({
 	SIGN_IN_USER: "/auth/login",
 	AUTHENTICATE_USER: "/auth/authenticate",
 	DELETE_USER: "/auth/delete",
+	UPDATE_USER: "/auth/update",
 });
 
-export const USER_TOKEN = Object.freeze("USER_TOKEN");
+export const USER_TOKEN = Object.freeze("Bearer");

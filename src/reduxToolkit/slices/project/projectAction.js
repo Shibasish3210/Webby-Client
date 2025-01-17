@@ -1,18 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 import callApi from "../../../config/api";
-import { PROJECT_CALL, USER_TOKEN } from "../../../helpers/apiEndpoints";
+import { PROJECT_CALL } from "../../../helpers/apiEndpoints";
 
 export const fetchPublicProjects = createAsyncThunk(
 	"project/fetchPublicProjects",
 	async (_, thunkAPI) => {
 		try {
-			const response = await callApi.get(PROJECT_CALL.GET_FEED_PROJECTS, {
-				headers: {
-					userToken: Cookies.get(USER_TOKEN) || "",
-				},
-			});
+			const response = await callApi.get(PROJECT_CALL.GET_FEED_PROJECTS);
 			const data = response.data;
 
 			if (data.status !== 200) {
@@ -39,14 +34,7 @@ export const fetchMoreProjects = createAsyncThunk(
 				type === "feed"
 					? PROJECT_CALL.GET_FEED_PROJECTS
 					: PROJECT_CALL.GET_PERSONAL_PROJECT;
-			const response = await callApi.get(
-				`${endpoint}?skip=${skipCount}`,
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN) || "",
-					},
-				},
-			);
+			const response = await callApi.get(`${endpoint}?skip=${skipCount}`);
 			const data = response.data;
 
 			if (data.status !== 200) {
@@ -72,11 +60,6 @@ export const fetchInitialProject = createAsyncThunk(
 		try {
 			const response = await callApi.get(
 				PROJECT_CALL.GET_PERSONAL_PROJECT,
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN) || "",
-					},
-				},
 			);
 			const data = response.data;
 
@@ -98,21 +81,13 @@ export const fetchInitialProject = createAsyncThunk(
 
 export const createProject = createAsyncThunk(
 	"project/createProject",
-	async ({ projName, projDetails, visibility }, thunkAPI) => {
+	async ({ projectName, projectDesc, isPublished }, thunkAPI) => {
 		try {
-			const response = await callApi.post(
-				PROJECT_CALL.CREATE_PROJECT,
-				{
-					name: projName.current.value,
-					details: projDetails.current.value,
-					visibility,
-				},
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN) || "",
-					},
-				},
-			);
+			const response = await callApi.post(PROJECT_CALL.CREATE_PROJECT, {
+				name: projectName.current.value,
+				details: projectDesc.current.value,
+				visibility: isPublished,
+			});
 
 			const data = response.data;
 
@@ -140,11 +115,6 @@ export const deleteProject = createAsyncThunk(
 		try {
 			const response = await callApi.delete(
 				`${PROJECT_CALL.DELETE_PROJECT}${_id}`,
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN),
-					},
-				},
 			);
 			if (response.data.status !== 200) {
 				toast.error(response.data.message);
@@ -163,11 +133,7 @@ export const getCurrentProject = createAsyncThunk(
 	"project/getCurrentProject",
 	async (projectId, thunkAPI) => {
 		try {
-			const response = await callApi.get(`/project/${projectId}`, {
-				headers: {
-					userToken: Cookies.get(USER_TOKEN) || "",
-				},
-			});
+			const response = await callApi.get(`/project/${projectId}`);
 
 			if (response.data.status !== 200) {
 				toast.error(response.data.message);
@@ -186,20 +152,12 @@ export const updateCurrentProject = createAsyncThunk(
 	async ({ currProjData }, thunkAPI) => {
 		try {
 			const { projectId, html, css, js } = currProjData;
-			const response = await callApi.patch(
-				PROJECT_CALL.UPDATE_PROJECT,
-				{
-					projectId,
-					html,
-					css,
-					js,
-				},
-				{
-					headers: {
-						userToken: Cookies.get(USER_TOKEN) || "",
-					},
-				},
-			);
+			const response = await callApi.patch(PROJECT_CALL.UPDATE_PROJECT, {
+				projectId,
+				html,
+				css,
+				js,
+			});
 
 			const data = response.data;
 

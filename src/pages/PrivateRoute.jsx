@@ -10,7 +10,6 @@ const PrivateRoute = () => {
 	if (loading) {
 		return <h1 className="text-black text-4xl">Loading</h1>;
 	} else if (error) {
-		toast.error(error);
 		return <Navigate to="/login" replace />;
 	} else if (user) {
 		return <Outlet />;

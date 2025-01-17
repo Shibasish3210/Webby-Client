@@ -5,6 +5,7 @@ import { loginUser } from "../reduxToolkit/slices/user/userSlice";
 import Input from "../components/shared/Input";
 import Navbar from "../components/structured/Navbar";
 import Button from "../components/shared/Button";
+import ModalMaker from "../components/shared/ModalMaker";
 
 const Login = () => {
 	const loginId = useRef("");
@@ -13,8 +14,7 @@ const Login = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const handleLogin = async (e) => {
-		e.preventDefault();
+	const handleLogin = async () => {
 		dispatch(
 			loginUser({
 				loginId: loginId.current.value,
@@ -26,33 +26,51 @@ const Login = () => {
 	return (
 		<>
 			<Navbar />
-			<form onSubmit={handleLogin}>
-				<div className="inputFields">
-					<Input
-						id="loginId"
-						label="User Name/ Email :"
-						placeholder={"Enter your user name or email"}
-						refrence={loginId}
-					/>
-					<Input
-						id="password"
-						type={"password"}
-						label="Your Password :"
-						placeholder={"Enter your Password"}
-						refrence={password}
-					/>
+			<div className="styled_form">
+				<div className="modal-content styled-modal-form-content">
+					<ModalMaker isModal={false} modalTitle={"Log In Form"}>
+						{{
+							modalInputs: (
+								<>
+									<Input
+										id="loginId"
+										label="User Name/ Email"
+										placeholder={
+											"Enter your user name or email"
+										}
+										reference={loginId}
+									/>
+									<Input
+										id="password"
+										type={"password"}
+										label="Your Password"
+										placeholder={"Enter your Password"}
+										reference={password}
+									/>
+								</>
+							),
+							modalButtons: (
+								<Button
+									type="button"
+									func={handleLogin}
+									value={"Log In"}
+								/>
+							),
+							modalFooter: (
+								<p className="mt-4">
+									{`Don't Have An Account?`}{" "}
+									<Link
+										className="pl-3 underline underline-offset-4"
+										to={"/register"}
+									>
+										Click Here!
+									</Link>{" "}
+								</p>
+							),
+						}}
+					</ModalMaker>
 				</div>
-
-				<div className="mt-20 w-full text-center">
-					<Button type="submit" value={"Log In"} />
-					<p className="mt-4">
-						{`Don't Have An Account?`}{" "}
-						<Link className="pl-3" to={"/register"}>
-							Click Here!
-						</Link>{" "}
-					</p>
-				</div>
-			</form>
+			</div>
 		</>
 	);
 };

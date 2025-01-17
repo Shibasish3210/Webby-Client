@@ -1,21 +1,18 @@
 import { useState } from "react";
 
 const useSidebar = () => {
-	const [isSidebarOpen, setSidebarOpen] = useState(false);
-	const [isSidebarOpenForAnimation, setSidebarOpenForAnimation] =
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [isSidebarOpenForAnimation, setIsSidebarOpenForAnimation] =
 		useState(false);
 
 	const openSidebar = () => {
-		// if(isSidebarOpen){
-
-		// }
-		setSidebarOpen(true);
-		setSidebarOpenForAnimation(true);
+		setIsSidebarOpen(true);
+		setIsSidebarOpenForAnimation(true);
 	};
 
 	const closeSidebar = () => {
-		setTimeout(() => setSidebarOpen(false), 700);
-		setSidebarOpenForAnimation(false);
+		setTimeout(() => setIsSidebarOpen(false), 700);
+		setIsSidebarOpenForAnimation(false);
 	};
 
 	return {

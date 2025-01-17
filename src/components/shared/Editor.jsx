@@ -7,10 +7,10 @@ import { css } from "@codemirror/lang-css";
 import JavaScript from "../../assets/javaScript.svg";
 import Html from "../../assets/html.svg";
 import Css from "../../assets/css.svg";
-import { FaExpand } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import ModalEditor from "../structured/ModalEditor";
+import { FaExpand, FaCopy } from "react-icons/fa";
+import { IoMdClose, IoMdDoneAll } from "react-icons/io";
 import { EditorLanguages } from "../../helpers/editorHelper";
+import { toast } from "react-toastify";
 
 const jsExtensions = [javascript({ jsx: true })];
 const xmlExtensions = [xml()];
@@ -29,6 +29,8 @@ const Editor = (props) => {
 	} = props;
 	const [lang, setLang] = useState();
 	const [img, setImg] = useState();
+	const [copyToClipboardStarted, setCopyToClipboardStarted] = useState(false);
+
 	useEffect(() => {
 		if (language === EditorLanguages.HTML) {
 			setLang(xmlExtensions);
@@ -42,10 +44,26 @@ const Editor = (props) => {
 		}
 	}, [language]);
 
+	const handleCopyToClipboard = async () => {
+		try {
+			await navigator.clipboard.writeText(value);
+			setCopyToClipboardStarted(true);
+			toast.success("Code copied successfully");
+		} catch (error) {
+			toast.error(
+				`${error.message || "Something went wrong while copying"}`,
+			);
+			console.log(error);
+		}
+		setTimeout(() => {
+			setCopyToClipboardStarted(false);
+		}, 3000);
+	};
+
 	return (
 		<div
 			className={`mb-1 ${
-				height ? `h-[60vh]` : "h-[29.25vh]"
+				height ? `h-[70vh]` : "h-[29.25vh]"
 			} border-[1px] rounded-md`}
 		>
 			<div className="flex justify-between items-center border-b-[1px] px-4 py-1">
@@ -55,7 +73,16 @@ const Editor = (props) => {
 					</span>
 					<h3 className="text-sm">{language}</h3>
 				</div>
-				<div>
+				<div className="btn-cont btn-cont flex items-center gap-2">
+					{!copyToClipboardStarted ? (
+						<button onClick={handleCopyToClipboard}>
+							<FaCopy />
+						</button>
+					) : (
+						<button title="copied">
+							<IoMdDoneAll />
+						</button>
+					)}
 					{isExpanded ? (
 						<button
 							onClick={() => {
