@@ -71,7 +71,10 @@ export const loginUser = createAsyncThunk(
 			const accessToken = response.data.accessToken;
 
 			const user = response.data.user;
-			document.cookie = `${USER_TOKEN}=${accessToken}; path=/`;
+			document.cookie =
+				import.meta.env.VITE_ENVIRONMENT === "development"
+					? `${USER_TOKEN}=${accessToken}; path=/;`
+					: `${USER_TOKEN}=${accessToken}; path=/; httpOnly: true; secure: true; sameSite: "none"`;
 			navigate("/dashboard");
 			return user;
 		} catch (error) {
@@ -95,7 +98,8 @@ export const deleteUser = createAsyncThunk(
 				return null;
 			}
 			document.cookie =
-				USER_TOKEN + "=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+				USER_TOKEN +
+				"=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 			navigate("/");
 			return null;
 		} catch (error) {
@@ -135,7 +139,7 @@ export const updateUser = createAsyncThunk(
 				toast.error(response.data.message);
 				return null;
 			}
-			console.log("here", response.data)
+			console.log("here", response.data);
 			// navigate("/dashboard");
 			return response.data.user;
 		} catch (error) {
