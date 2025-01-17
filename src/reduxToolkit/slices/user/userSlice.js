@@ -72,13 +72,13 @@ export const loginUser = createAsyncThunk(
 				return;
 			}
 
-			const accessToken = response.data.accessToken;
+			// const accessToken = response.data.accessToken;
 
 			const user = response.data.user;
-			document.cookie =
-				import.meta.env.VITE_ENVIRONMENT === "development"
-					? `${USER_TOKEN}=${accessToken}; path=/;`
-					: `${USER_TOKEN}=${accessToken}; path=/; httpOnly: true; secure: true; sameSite: "none"`;
+			// document.cookie =
+			// 	import.meta.env.VITE_ENVIRONMENT === "development"
+			// 		? `${USER_TOKEN}=${accessToken}; path=/;`
+			// 		: `${USER_TOKEN}=${accessToken}; path=/; httpOnly: true; secure: true; sameSite: "none"`;
 			console.log(document.cookie);
 			navigate("/dashboard");
 			return user;
