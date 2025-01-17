@@ -59,10 +59,14 @@ export const loginUser = createAsyncThunk(
 	"user/loginUser",
 	async ({ loginId, password, navigate }, thunkAPI) => {
 		try {
-			const response = await callApi.post(`${USER_CALL.SIGN_IN_USER}`, {
-				loginId: loginId,
-				password: password,
-			});
+			const response = await callApi.post(
+				`${USER_CALL.SIGN_IN_USER}`,
+				{
+					loginId: loginId,
+					password: password,
+				},
+				{ withCredentials: true },
+			);
 			if (response.data.status !== 200) {
 				toast.error(response.data.message);
 				return;
@@ -75,6 +79,7 @@ export const loginUser = createAsyncThunk(
 				import.meta.env.VITE_ENVIRONMENT === "development"
 					? `${USER_TOKEN}=${accessToken}; path=/;`
 					: `${USER_TOKEN}=${accessToken}; path=/; httpOnly: true; secure: true; sameSite: "none"`;
+			console.log(document.cookie);
 			navigate("/dashboard");
 			return user;
 		} catch (error) {
